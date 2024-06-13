@@ -25,6 +25,24 @@ app.post("/signup",async(req,res)=>{
 
 })
 
+app.post("/viewusers",(req,res)=>{
+    let token = req.headers["token"]
+    jwt.verify(token,"signupmodel",(error,decoded)=>{
+        if (error) {
+            res.json({"status":"unauthorised access"})
+        } else {
+          if(decoded)
+            {
+                signupmodel.find().then(
+                    (response)=>{
+                        res.json(response)
+                    }
+                ).catch()
+            }  
+        }
+    })
+})
+
 app.listen(8080,()=>{
     console.log("server started")
 })
